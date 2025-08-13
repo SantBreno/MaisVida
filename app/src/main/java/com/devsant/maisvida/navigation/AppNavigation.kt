@@ -15,7 +15,7 @@ fun AppNavigation(
     val navController = rememberNavController()
 
     NavHost(
-        navController = rememberNavController(),
+        navController = navController,
         startDestination = "sign_in"
     ) {
         composable("sign_in") {

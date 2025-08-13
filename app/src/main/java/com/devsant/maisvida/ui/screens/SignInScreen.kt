@@ -54,7 +54,7 @@ fun SignInScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = { navController.navigate("home") }) {
+        Button(onClick = { navController.navigate("sign_up") }) {
             Text(text = "Entrar")
         }
 
