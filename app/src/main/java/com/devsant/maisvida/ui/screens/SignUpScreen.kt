@@ -55,7 +55,7 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = { navController.navigate("home") }) {
+        Button(onClick = { navController.navigate("add_donor") }) {
             Text(text = "Entrar")
         }
 

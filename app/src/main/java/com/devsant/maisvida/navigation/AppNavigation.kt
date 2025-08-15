@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.devsant.maisvida.ui.screens.AddDonorScreen
 import com.devsant.maisvida.ui.screens.SignInScreen
 import com.devsant.maisvida.ui.screens.SignUpScreen
 
@@ -23,6 +24,9 @@ fun AppNavigation(
         }
         composable("sign_up") {
             SignUpScreen(navController)
+        }
+        composable("add_donor") {
+            AddDonorScreen(navController)
         }
     }
 }
