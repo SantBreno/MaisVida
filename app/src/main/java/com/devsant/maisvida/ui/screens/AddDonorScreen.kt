@@ -1,7 +1,5 @@
 package com.devsant.maisvida.ui.screens
 
-import android.R.attr.enabled
-import android.R.attr.type
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
