@@ -79,7 +79,9 @@ fun DonorCardPreview() {
         name = "John Doe",
         bloodType = "+O",
         canDonate = true,
-        lastDonation = "2023-11-15"
+        lastDonation = "2023-11-15",
+        identification = "12345678901",
+        birthDate = "1990-01-01"
     )
     DonorCard(donor = sampleDonor)
 }
