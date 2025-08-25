@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -30,7 +31,7 @@ fun DateInputField(
         value = value,
         onValueChange = {},
         readOnly = true,
-        label = { Text(label) },
+        label = { Text(label, color = Color.White, fontWeight = FontWeight.Bold) },
         shape = RoundedCornerShape(12.dp),
         trailingIcon = {
             Icon(
@@ -53,7 +54,9 @@ fun DateInputField(
             disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedContainerColor = Color.Transparent,
             disabledContainerColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent
         )
     )
 }

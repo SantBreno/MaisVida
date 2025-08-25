@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -41,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.devsant.maisvida.ui.components.CardInputField
 import com.devsant.maisvida.ui.components.DateInputField
 import com.devsant.maisvida.ui.components.DatePickerField
 import com.devsant.maisvida.ui.components.IdentificationField
@@ -73,17 +72,8 @@ fun AddDonorScreen(
                 .padding(16.dp)
                 .padding(innerPadding)
         ) {
-            Card(
-                modifier = Modifier,
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 4.dp,
-                    pressedElevation = 8.dp
-                ),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFFf2a8ab)
-                )
-            ) {
+
+            CardInputField {
                 TextField(
                     value = viewModel.name.value,
                     onValueChange = { viewModel.name.value = it },
@@ -105,17 +95,7 @@ fun AddDonorScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Card(
-                modifier = Modifier,
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 4.dp,
-                    pressedElevation = 8.dp
-                ),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFFf2a8ab)
-                )
-            ) {
+            CardInputField {
                 IdentificationField(
                     value = viewModel.identification.value,
                     onValueChange = { viewModel.identification.value = it }
@@ -124,30 +104,23 @@ fun AddDonorScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            BloodTypeDropdown(
-                expanded = viewModel.bloodTypeExpanded.value,
-                onExpandedChange = { viewModel.bloodTypeExpanded.value = it },
-                selectedType = viewModel.bloodType.value,
-                onTypeSelected = { viewModel.bloodType.value = it },
-                bloodTypes = bloodTypes
-            )
+            CardInputField {
+                BloodTypeDropdown(
+                    expanded = viewModel.bloodTypeExpanded.value,
+                    onExpandedChange = { viewModel.bloodTypeExpanded.value = it },
+                    selectedType = viewModel.bloodType.value,
+                    onTypeSelected = { viewModel.bloodType.value = it },
+                    bloodTypes = bloodTypes
+                )
+            }
 
             Spacer(modifier = Modifier.size(16.dp))
 
-            Card(
-                modifier = Modifier,
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 4.dp,
-                    pressedElevation = 8.dp
-                ),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-            ) {
+            CardInputField {
                 DateInputField(
                     value = viewModel.lastDonation.value,
                     onClick = { showDatePicker  = true }
                 )
-
                 DatePickerField(
                     showDialog = showDatePicker,
                     onDismiss = { showDatePicker = false },
@@ -157,6 +130,8 @@ fun AddDonorScreen(
                     }
                 )
             }
+
+            Spacer(modifier = Modifier.size(20.dp))
 
             Button(
                 onClick = {
@@ -189,87 +164,78 @@ fun BloodTypeDropdown(
         modifier = modifier.fillMaxWidth()
     ) {
 
-        Card(
-            modifier = Modifier,
-            shape = RoundedCornerShape(12.dp),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 4.dp,
-                pressedElevation = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        ) {
-            TextField(
-                value = selectedType,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text("Blood Type") },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = expanded
-                    )
-                },
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                modifier = Modifier
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
-                    .fillMaxWidth()
-            )
+        TextField(
+            value = selectedType,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Blood Type", color = Color.White, fontWeight = FontWeight.Bold) },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = expanded
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                .fillMaxWidth()
+        )
 
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { onExpandedChange(false) }
-            ) {
-                bloodTypes.forEach { bloodType ->
-                    DropdownMenuItem(
-                        text = {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(32.dp)
-                                        .background(
-                                            color = when (bloodType.last()) {
-                                                '+' -> Color(0xFFFFEBEE)
-                                                '-' -> Color(0xFFE8F5E9)
-                                                else -> Color(0xFFEEEEEE)
-                                            },
-                                            shape = CircleShape
-                                        ),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = bloodType,
-                                        fontWeight = FontWeight.Bold,
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onExpandedChange(false) }
+        ) {
+            bloodTypes.forEach { bloodType ->
+                DropdownMenuItem(
+                    text = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .background(
                                         color = when (bloodType.last()) {
-                                            '+' -> Color(0xFFD32F2F)
-                                            '-' -> Color(0xFF388E3C)
-                                            else -> Color(0xFF212121)
-                                        }
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(12.dp))
+                                            '+' -> Color(0xFFFFEBEE)
+                                            '-' -> Color(0xFFE8F5E9)
+                                            else -> Color(0xFFEEEEEE)
+                                        },
+                                        shape = CircleShape
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
                                 Text(
-                                    text = when (bloodType) {
-                                        "O-" -> "Universal Donor"
-                                        "AB+" -> "Universal Recipient"
-                                        else -> ""
-                                    },
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    text = bloodType,
+                                    fontWeight = FontWeight.Bold,
+                                    color = when (bloodType.last()) {
+                                        '+' -> Color(0xFFD32F2F)
+                                        '-' -> Color(0xFF388E3C)
+                                        else -> Color(0xFF212121)
+                                    }
                                 )
                             }
-                        },
-                        onClick = {
-                            onTypeSelected(bloodType)
-                            onExpandedChange(false)
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = when (bloodType) {
+                                    "O-" -> "Universal Donor"
+                                    "AB+" -> "Universal Recipient"
+                                    else -> ""
+                                },
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
-                    )
-                }
+                    },
+                    onClick = {
+                        onTypeSelected(bloodType)
+                        onExpandedChange(false)
+                    }
+                )
             }
         }
     }
